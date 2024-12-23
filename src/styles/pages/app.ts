@@ -1,4 +1,4 @@
-import { styled } from "..";
+import { styled } from '..'
 
 export const Container = styled('div', {
   display: 'flex',
@@ -17,7 +17,7 @@ export const Header = styled('header', {
   margin: '0 auto',
   display: 'flex',
   alignItems: 'center',
-  
+
   variants: {
     showCartButton: {
       true: {
@@ -48,8 +48,8 @@ export const CartButton = styled('button', {
   transition: 'all 0.2s',
 
   '&:hover': {
-    color: '$green500'
-  }
+    color: '$green500',
+  },
 })
 
 export const CartItemsLength = styled('span', {
@@ -68,7 +68,7 @@ export const CartItemsLength = styled('span', {
   lineHeight: 1.6,
   fontSize: '0.875rem',
   fontWeight: 'bold',
-  padding: 10
+  padding: 10,
 })
 
 export const CartDrawer = styled('div', {
@@ -89,8 +89,8 @@ export const CartDrawer = styled('div', {
       },
       false: {
         transform: 'translateX(110%)',
-      }
-    }
+      },
+    },
   },
 
   defaultVariants: {
@@ -108,9 +108,9 @@ export const CartDrawer = styled('div', {
       cursor: 'pointer',
 
       '&:hover': {
-        color: '$green300'
-      }
-    }
+        color: '$green300',
+      },
+    },
   },
 
   h3: {
@@ -122,8 +122,46 @@ export const CartDrawer = styled('div', {
   },
 
   footer: {
-    marginTop: 'auto'
-  }
+    marginTop: 'auto',
+
+    ul: {
+      listStyle: 'none',
+      color: '$gray100',
+      spaceY: 70,
+
+      li: {
+        display: 'flex',
+        justifyContent: 'space-between',
+
+        small: {
+          lineHeight: 1.6,
+          fontSize: '1rem',
+        },
+
+        span: {
+          lineHeight: 1.4,
+          fontSize: '1.5rem',
+        },
+      },
+    },
+
+    button: {
+      width: '100%',
+      padding: '1.5rem',
+      marginTop: '3.4rem',
+      backgroundColor: '$green500',
+      border: 0,
+      borderRadius: 8,
+      cursor: 'pointer',
+      color: '$white',
+      fontWeight: 'bold',
+      fontSize: '1.125rem',
+
+      '&:not(disabled):hover': {
+        backgroundColor: '$green300',
+      },
+    },
+  },
 })
 
 export const CartDrawerItems = styled('div', {
@@ -148,9 +186,9 @@ export const CartDrawerItemImageWrapper = styled('div', {
   justifyContent: 'center',
   background: 'linear-gradient(180deg, #1ea483 0%, #7465d4 100%)',
   borderRadius: 8,
-  
+
   img: {
-    objectFit: 'cover'
+    objectFit: 'cover',
   },
 })
 
@@ -161,7 +199,7 @@ export const CartDrawerItemInfo = styled('div', {
   h4: {
     lineHeight: 1.6,
     fontSize: '1.125rem',
-    color: '$gray300'
+    color: '$gray300',
   },
 
   p: {
@@ -170,7 +208,7 @@ export const CartDrawerItemInfo = styled('div', {
     color: '$gray100',
     fontSize: '1.125rem',
     lineHeight: 1.6,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
 
   button: {
@@ -181,6 +219,6 @@ export const CartDrawerItemInfo = styled('div', {
     color: '$green500',
     cursor: 'pointer',
     background: 'transparent',
-    width: 'fit-content'
-  }
+    width: 'fit-content',
+  },
 })

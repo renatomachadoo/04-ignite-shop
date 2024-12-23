@@ -1,11 +1,11 @@
-import { styled } from "..";
+import { styled } from '..'
 
 export const HomeContainer = styled('main', {
   display: 'flex',
   width: '100%',
   maxWidth: 'calc(100vw - ((100vw - 1180px) / 2))',
   marginLeft: 'auto',
-  minHeight: 656
+  minHeight: 656,
 })
 
 export const Product = styled('div', {
@@ -21,7 +21,7 @@ export const Product = styled('div', {
   justifyContent: 'center',
 
   img: {
-    objectFit: 'cover'
+    objectFit: 'cover',
   },
 
   footer: {
@@ -35,7 +35,7 @@ export const Product = styled('div', {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-    
+
     backgroundColor: 'rgba(0, 0, 0, 0.6)',
 
     transform: 'translateY(110%)',
@@ -50,22 +50,22 @@ export const Product = styled('div', {
 
     strong: {
       fontSize: '$lg',
-      color: '$gray100'
+      color: '$gray100',
     },
 
     span: {
       fontSize: '$xl',
       fontWeight: 'bold',
-      color: '$green300'
-    }
+      color: '$green300',
+    },
   },
 
   '&:hover': {
     footer: {
       transform: 'translateY(0%)',
-      opacity: 1
-    }
-  }
+      opacity: 1,
+    },
+  },
 })
 
 export const AddToCartButton = styled('button', {
@@ -81,6 +81,6 @@ export const AddToCartButton = styled('button', {
   justifyContent: 'center',
 
   '&:not(disabled):hover': {
-    backgroundColor: '$green300'
-  }
+    backgroundColor: '$green300',
+  },
 })
