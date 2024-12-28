@@ -4,41 +4,27 @@ import { GetStaticPaths, GetStaticProps } from "next"
 import { stripe } from "../../lib/stripe"
 import Stripe from "stripe"
 import { useRouter } from "next/router"
-import axios from "axios"
-import { useState } from "react"
 import Head from "next/head"
+import { useContextSelector } from "use-context-selector"
+import { CartContext } from "../../contexts/CartContext"
 
 interface ProductProps {
   product: {
     id: string;
     name: string;
     imageUrl: string;
-    price: string;
+    price: number;
     description: string;
     defaultPriceId: string;
   }
 }
 
 export default function Product({ product }: ProductProps){
-  const [isCreatingChecoutSession, setIsCreatingCheckoutSession] = useState(false)
   const { isFallback } = useRouter()
 
-  async function handleBuyProduct(){
-    try {
-      setIsCreatingCheckoutSession(true)
-
-      const response = await axios.post('/api/checkout', {
-        priceId: product.defaultPriceId
-      })
-
-      const { checkoutUrl } = response.data
-
-      window.location.href = checkoutUrl
-    } catch (error) {
-      setIsCreatingCheckoutSession(false)
-      alert('Falha ao redirecionar ao checkout!')
-    }
-  }
+  const addItemToCart = useContextSelector(CartContext, (context) => {
+    return context.addItemToCart
+  })
 
   if (isFallback){
     return <p>Loading...</p>
@@ -57,11 +43,11 @@ export default function Product({ product }: ProductProps){
 
         <ProductDetails>
           <h1>{product.name}</h1>
-          <span>{product.price}</span>
+          <span>{new Intl.NumberFormat("pt-BR", {style: 'currency', currency: 'BRL'}).format(product.price)}</span>
 
           <p>{product.description}</p>
 
-          <button disabled={isCreatingChecoutSession} onClick={handleBuyProduct}>Comprar agora</button>
+          <button onClick={() => addItemToCart(product)}>Colocar na sacola</button>
         </ProductDetails>
       </ProductContainer>
     </>
@@ -94,10 +80,7 @@ export const getStaticProps: GetStaticProps<any, { id: string}> = async ({ param
         id: product.id,
         name: product.name,
         imageUrl: product.images[0],
-        price: new Intl.NumberFormat("pt-BR", {
-          style: 'currency',
-          currency: 'BRL',
-        }).format(price.unit_amount / 100),
+        price: price.unit_amount / 100,
         description: product.description,
         defaultPriceId: price.id
       }

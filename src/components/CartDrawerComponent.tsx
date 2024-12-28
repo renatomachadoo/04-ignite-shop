@@ -8,18 +8,43 @@ import {
 
 import Image from 'next/image'
 
-import logoImg from '../assets/logo.svg'
 import { X } from '@phosphor-icons/react'
+import { CartContext } from '../contexts/CartContext'
+import { useContextSelector } from 'use-context-selector'
 
-interface CartDrawerComponentProps {
-  cartOpen: boolean
-  setCartOpen: (open: boolean) => void
-}
+export function CartDrawerComponent(){
+  const itemsAmount = useContextSelector(CartContext, (context) => {
+    return context.itemsAmount
+  })
 
-export function CartDrawerComponent({
-  cartOpen,
-  setCartOpen,
-}: CartDrawerComponentProps) {
+  const totalPrice = useContextSelector(CartContext, (context) => {
+    return context.totalPrice
+  })
+  
+  const cartItems = useContextSelector(CartContext, (context) => {
+    return context.items
+  })
+
+  const cartOpen = useContextSelector(CartContext, (context) => {
+    return context.cartOpen
+  })
+
+  const setCartOpen = useContextSelector(CartContext, (context) => {
+    return context.setCartOpen
+  })
+
+  const removeItemFromCart = useContextSelector(CartContext, (context) => {
+    return context.removeItemFromCart
+  })
+
+  const isCreatingCheckoutSession = useContextSelector(CartContext, (context) => {
+    return context.isCreatingCheckoutSession
+  })
+
+  const handleCreateCheckout = useContextSelector(CartContext, (context) => {
+    return context.handleCreateCheckout
+  })
+
   return (
     <CartDrawer open={cartOpen}>
       <header>
@@ -29,66 +54,37 @@ export function CartDrawerComponent({
       </header>
       <h3>Sacola de compras</h3>
       <CartDrawerItems>
-        <CartDrawerItem>
-          <CartDrawerItemImageWrapper>
-            <Image width={94} src={logoImg} alt="" />
-          </CartDrawerItemImageWrapper>
-          <CartDrawerItemInfo>
-            <h4>Camiseta Beyond the Limits</h4>
-            <p>R$ 79,90</p>
-            <button>Remover</button>
-          </CartDrawerItemInfo>
-        </CartDrawerItem>
-
-        <CartDrawerItem>
-          <CartDrawerItemImageWrapper>
-            <Image width={94} src={logoImg} alt="" />
-          </CartDrawerItemImageWrapper>
-          <CartDrawerItemInfo>
-            <h4>Camiseta Beyond the Limits</h4>
-            <p>R$ 79,90</p>
-            <button>Remover</button>
-          </CartDrawerItemInfo>
-        </CartDrawerItem>
-
-        <CartDrawerItem>
-          <CartDrawerItemImageWrapper>
-            <Image width={94} src={logoImg} alt="" />
-          </CartDrawerItemImageWrapper>
-          <CartDrawerItemInfo>
-            <h4>Camiseta Beyond the Limits</h4>
-            <p>R$ 79,90</p>
-            <button>Remover</button>
-          </CartDrawerItemInfo>
-        </CartDrawerItem>
-
-        <CartDrawerItem>
-          <CartDrawerItemImageWrapper>
-            <Image width={94} src={logoImg} alt="" />
-          </CartDrawerItemImageWrapper>
-          <CartDrawerItemInfo>
-            <h4>Camiseta Beyond the Limits</h4>
-            <p>R$ 79,90</p>
-            <button>Remover</button>
-          </CartDrawerItemInfo>
-        </CartDrawerItem>
+        {cartItems.map(product => {
+          return(
+            <CartDrawerItem key={product.id}>
+              <CartDrawerItemImageWrapper>
+                <Image width={94} height={94} src={product.imageUrl} alt="" />
+              </CartDrawerItemImageWrapper>
+              <CartDrawerItemInfo>
+                <h4>{product.name}</h4>
+                <p>{new Intl.NumberFormat("pt-BR", {style: 'currency', currency: 'BRL'}).format(product.price)}</p>
+                <button onClick={() => removeItemFromCart(product.id)}>Remover</button>
+              </CartDrawerItemInfo>
+            </CartDrawerItem>
+          )
+        })}
       </CartDrawerItems>
       <footer>
         <ul>
           <li>
             <small>Quantidade</small>
-            <small>3 itens</small>
+            <small>{itemsAmount} item(s)</small>
           </li>
           <li>
             <small>
               <strong>Valor total</strong>
             </small>
             <span>
-              <strong>R$ 270,00</strong>
+              <strong>{new Intl.NumberFormat("pt-BR", {style: 'currency', currency: 'BRL'}).format(totalPrice)}</strong>
             </span>
           </li>
         </ul>
-        <button>Finalizar compra</button>
+        <button disabled={isCreatingCheckoutSession} onClick={handleCreateCheckout}>Finalizar compra</button>
       </footer>
     </CartDrawer>
   )
